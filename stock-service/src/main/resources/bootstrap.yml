@@ -1,0 +1,10 @@
+spring:
+   cloud:
+      enabled: true
+   application:
+      name: stock-service
+      
+   security:
+      oauth2:
+        resource:
+          jwt.key-value: hookup24

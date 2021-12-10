@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    config:
+      uri: http://config:8888
+         
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-value: hookup24      

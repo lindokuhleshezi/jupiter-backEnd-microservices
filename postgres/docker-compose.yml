@@ -1,0 +1,43 @@
+version: '2'
+services:
+    storage:
+        image: postgres:12
+        container_name: postgres-db
+        environment:
+            POSTGRES_USE: hookup24
+            POSTGRES_PASSWORD: hookup24
+            POSTGRES_DB: user_service
+            POSTGRES_HOST_AUTH_METHOD: trust
+            PGDATA: /var/lib/postgresql/data
+        ports:
+            - 5432:5432
+        volumes:
+            - ./data:/var/lib/postgresql/data
+            - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+        networks:
+            - postgres
+        restart: unless-stopped
+                
+    pgadmin:
+        container_name: pgadmin
+        image: "dpage/pgadmin4"
+        environment:
+           PGADMIN_DEFAULT_EMAIL: admin@gmail.com
+           PGADMIN_DEFAULT_PASSWORD: admin
+           PGADMIN_CONFIG_SERVER_MODE: "False"
+           PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+        volumes:
+            - ./pgadmin:/var/lib/pgadmin
+            - ./docker_pgadmin_servers.json:/pgadmin4/servers.json
+        ports:
+            - "15433:80"
+        networks:
+            - postgres
+        restart: unless-stopped   
+networks:
+    postgres:
+        driver: bridge
+          
+volumes:
+    postgres:
+    pgadmin: 
